@@ -10,6 +10,9 @@ $(document).ready(function(){
     //Username link click
     $('#userList table tbody').on('click', 'td a.linkshowuser', showUserInfo);
 
+    // Add User button click
+    $('#btnAddUser').on('click', addUser);
+
 });
 
 // Functions ==========================================
@@ -62,3 +65,55 @@ function showUserInfo(event){
     $('#userInfoLocation').text(thisUserObject.location);
 
 }
+
+// Add User
+function addUser(event){
+    event.preventDefault();
+
+    //Super basic validation - increase errorCount variable if any fields are blank
+    var errorCount = 0;
+    $('#addUser input').each(function(index, val){
+        if($(this).val() === '') {errorCount++; }
+    });
+
+    //Check and make sure errorCount still at zero
+    if(errorCount === 0) {
+
+        //if its is, compile all user info into an object
+        var newUser = {
+            'username': $('#addUser fieldset input#inputUserName').val(),
+            'email': $('#addUser fieldset input#inputUserEmail').val(),
+            'fullname': $('#addUser fieldset input#inputUserFullname').val(),
+            'age': $('#addUser fieldset input#inputUserAge').val(),
+            'location': $('#addUser fieldset input#inputUserLocation').val(),
+            'gender': $('#addUser fieldset input#inputUserGender').val()
+        };
+
+        //Use AJAX to post the object to our adduser Service
+        $.ajax({
+            type: 'POST',
+            data: newUser,
+            url: '/users/adduser',
+            dataType: 'JSON'
+        }).done(function(response){
+
+            // Check for successfal (blank) response
+            if (response.msg === '') {
+                //Clear the form inputUserAge
+                $('#addUser fieldset input').val('');
+
+                //Update the table
+                populateTable();
+            }
+            else{
+                //If something goes wrong, alert the error messag that our service returned
+                alert('Error: ' + response.msg);
+            }
+        });
+    }
+    else{
+        //if error Count is more than 0, error out
+        alert('Please fill in all fields');
+        return false;
+    }
+};
