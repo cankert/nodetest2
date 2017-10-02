@@ -14,7 +14,11 @@ $(document).ready(function(){
     $('#btnAddUser').on('click', addUser);
 
     // Delete User click link
-    $('#userList table tbody').on('click', 'td a.linkdeleteuser', deleteUser)
+    $('#userList table tbody').on('click', 'td a.linkdeleteuser', deleteUser);
+
+    // Edit User Info on Click
+    $('#userList table tbody').on('click', 'td a.linkedituser', editUser);
+
 });
 
 // Functions ==========================================
@@ -34,8 +38,9 @@ function populateTable() {
         // For each item in our JSON add a table row and cells to the content string
         $.each(data, function(){
             tableContent += '<tr>';
-            tableContent += '<td><a href="#" class="linkshowuser" rel="' + this.username + '">' + this.username + '</a></td>';
+            tableContent += '<td><a href="#" class="linkshowuser" rel="' + this._id + '">' + this.username + '</a></td>';
             tableContent += '<td>' + this.email + '</td>';
+            tableContent += '<td><a href="#" class="linkedituser" rel="' + this._id + '">Edit</a></td>';
             tableContent += '<td><a href="#" class="linkdeleteuser" rel="' + this._id + '">delete</a></td>';
             tableContent += '</tr>';
         });
@@ -52,10 +57,10 @@ function showUserInfo(event){
     event.preventDefault();
 
     // Retrieve username from link rel attribute
-    var thisUserName = $(this).attr('rel');
+    var thisId = $(this).attr('rel');
 
     // Get index of object based on id value
-    var arrayPosition = userListData.map(function(arrayItem){ return arrayItem.username; }).indexOf(thisUserName);
+    var arrayPosition = userListData.map(function(arrayItem){ return arrayItem._id; }).indexOf(thisId);
 
     //Get our User object
     var thisUserObject = userListData[arrayPosition];
@@ -148,13 +153,29 @@ function deleteUser(event) {
             populateTable();
 
         });
-
     }
     else {
 
         // If they said no to the confirm, do nothing
         return false;
-
     }
+}
+
+//Edit User Info
+function editUser(event){
+    event.preventDefault();
+
+    // Retrieve username from link rel attribute
+    var thisUserName = $(this).attr('rel');
+
+    // Get index of object based on id value
+    var arrayPosition = userListData.map(function(arrayItem){ return arrayItem.username; }).indexOf(thisUserName);
+
+    //Get our User object
+    var thisUserObject = userListData[arrayPosition];
+
+    alert(thisUserName);
+
+
 
 }
