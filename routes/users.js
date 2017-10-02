@@ -38,7 +38,7 @@ router.put('/updateuser/:id', function(req,res){
     var db = req.db;
     var collection = db.get('userlist');
     var userToUpdate = req.params.id;
-    collection.updateOne({'_id' : userToUpdate},req.body, function(err, result){
+    collection.update({'_id' : userToUpdate},req.body, function(err, result){
         res.send(
             (err === null) ? {msg: '' } : {msg: err }
         );

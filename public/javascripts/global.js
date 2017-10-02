@@ -97,7 +97,8 @@ function addUser(event){
             'location': $('#addUser fieldset input#inputUserLocation').val(),
             'gender': $('#addUser fieldset input#inputUserGender').val()
         };
-
+        console.log('This is the new user');
+        console.log(newUser);
         //Use AJAX to post the object to our adduser Service
         $.ajax({
             type: 'POST',
@@ -183,7 +184,7 @@ function editUser(event){
     $('#inputUserAge').val(thisUserObject.age);
     $('#inputUserGender').val(thisUserObject.gender);
     $('#inputUserLocation').val(thisUserObject.location);
-    $('#userId').text(thisUserObject._id);
+    $('#userId').val(thisUserObject._id);
 }
 
 // Update User
@@ -209,11 +210,11 @@ function updateUser(event){
             'gender': $('#addUser fieldset input#inputUserGender').val()
         };
 
+        // Get userId from paragraph as value
+        var id = $('#idInfo #userId').val()
 
         //Use AJAX to post the object to our updateuser Service
-        var id = $('#userId').text();
-        console.log(id);
-        console.log(updatedUser);
+
         $.ajax({
             type: 'PUT',
             data: updatedUser,
