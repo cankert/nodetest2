@@ -33,7 +33,8 @@ router.delete('/deleteuser/:id', function(req,res){
 });
 
 //Update User Route
-/*router.put('/updateuser/:id', function(req,res){
+router.put('/updateuser/:id', function(req,res){
+    //console.log('trying to update');
     var db = req.db;
     var collection = db.get('userlist');
     var userToUpdate = req.params.id;
@@ -43,9 +44,9 @@ router.delete('/deleteuser/:id', function(req,res){
         );
     });
 });
-*/
-router.put('/updateuser/:id', function (req, res) {
+
+/*router.put('/updateuser/:id', function (req, res) {
   res.send('Got a PUT request at /user');
 });
-
+*/
 module.exports = router;
