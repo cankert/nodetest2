@@ -176,16 +176,14 @@ function editUser(event){
     //Get our User object
     var thisUserObject = userListData[arrayPosition];
 
-    console.log(thisUserObject);
-    console.log(thisUserObject.fullname);
-
-    //Populate Add User Box
+    //Populate edit User Box
     $('#inputUserName').val(thisUserObject.username);
     $('#inputUserEmail').val(thisUserObject.email);
     $('#inputUserFullname').val(thisUserObject.fullname);
     $('#inputUserAge').val(thisUserObject.age);
     $('#inputUserGender').val(thisUserObject.gender);
     $('#inputUserLocation').val(thisUserObject.location);
+    $('#userId').text(thisUserObject._id);
 }
 
 // Update User
@@ -211,18 +209,22 @@ function updateUser(event){
             'gender': $('#addUser fieldset input#inputUserGender').val()
         };
 
-        //Use AJAX to post the object to our adduser Service
+
+        //Use AJAX to post the object to our updateuser Service
+        var id = $('#userId').text();
+        console.log(id);
+        console.log(updatedUser);
         $.ajax({
-            type: 'POST',
+            type: 'PUT',
             data: updatedUser,
-            url: '/users/updateuser',
+            url: ('/users/updateuser/'+ id),
             dataType: 'JSON'
         }).done(function(response){
 
             // Check for successfal (blank) response
             if (response.msg === '') {
                 //Clear the form inputUserAge
-                $('#updateUser fieldset input').val('');
+                $('#addUser fieldset input').val('');
 
                 //Update the table
                 populateTable();

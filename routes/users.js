@@ -32,7 +32,20 @@ router.delete('/deleteuser/:id', function(req,res){
     });
 });
 
-
-
+//Update User Route
+/*router.put('/updateuser/:id', function(req,res){
+    var db = req.db;
+    var collection = db.get('userlist');
+    var userToUpdate = req.params.id;
+    collection.updateOne({'_id' : userToUpdate},req.body, function(err, result){
+        res.send(
+            (err === null) ? {msg: '' } : {msg: err }
+        );
+    });
+});
+*/
+router.put('/updateuser/:id', function (req, res) {
+  res.send('Got a PUT request at /user');
+});
 
 module.exports = router;
